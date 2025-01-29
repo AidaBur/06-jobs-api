@@ -1,15 +1,19 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
+// Import job controllers
 const {
-    getAllJobs, 
-    getJob, 
-    createJob, 
-    updateJob, 
-    deleteJob
-} = require('../controllers/jobs')
+  getAllJobs,
+  getJob,
+  createJob,
+  updateJob,
+  deleteJob,
+} = require("../controllers/jobs");
 
-router.route('/').post(createJob).get(getAllJobs)
-router.route('/:id').get(getJob).delete(deleteJob).patch(updateJob)
+// Define route for getting all jobs and creating a new job
+router.route("/").get(getAllJobs).post(createJob);
 
-module.exports = router
+// Define route for getting, updating and deleting a job
+router.route("/:id").get(getJob).patch(updateJob).delete(deleteJob);
+
+module.exports = router;
