@@ -1,92 +1,57 @@
-export const showAddEdit = async (jobId) => {
-  if (!jobId) {
-    company.value = "";
-    position.value = "";
-    status.value = "pending";
-    addingJob.textContent = "add";
-    message.textContent = "";
+import { showJobs } from "./jobs.js";
+import { showLoginRegister, handleLoginRegister } from "./loginRegister.js";
+import { handleLogin } from "./login.js";
+import { handleRegister } from "./register.js";
 
-    setDiv(addEditDiv);
-  } else {
-    enableInput(false);
+let token = null;
+let message = null;
+let activeDiv = null;
 
-    try {
-      const response = await fetch(`/api/v1/jobs/${jobId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+export const showAddEdit = (jobId) => {
+  console.log("showAddEdit function", jobId);
+};
 
-      const data = await response.json();
-      if (response.status === 200) {
-        company.value = data.job.company;
-        position.value = data.job.position;
-        status.value = data.job.status;
-        addingJob.textContent = "update";
-        message.textContent = "";
-        addEditDiv.dataset.id = jobId;
-
-        setDiv(addEditDiv);
-      } else {
-        message.textContent = "The jobs entry was not found";
-        showJobs();
-      }
-    } catch (err) {
-      console.log(err);
-      message.textContent = "A communications error has occurred.";
-      showJobs();
+export const setDiv = (newDiv) => {
+  if (newDiv !== activeDiv) {
+    if (activeDiv) {
+      activeDiv.style.display = "none";
     }
-
-    enableInput(true);
+    newDiv.style.display = "block";
+    activeDiv = newDiv;
   }
 };
 
-addEditDiv.addEventListener("click", async (e) => {
-  if (inputEnabled && e.target === addingJob) {
-    enableInput(false);
+export let inputEnabled = true;
+export const enableInput = (state) => {
+  inputEnabled = state;
+};
 
-    let method = "POST";
-    let url = "/api/v1/jobs";
+export const setToken = (value) => {
+  token = value;
+  if (value) {
+    localStorage.setItem("token", value);
+  } else {
+    localStorage.removeItem("token");
+  }
+};
 
-    if (addingJob.textContent === "update") {
-      method = "PATCH";
-      url = `/api/v1/jobs/${addEditDiv.dataset.id}`;
-    }
+document.addEventListener("DOMContentLoaded", () => {
+  token = localStorage.getItem("token");
+  message = document.getElementById("message");
 
-    try {
-      const response = await fetch(url, {
-        method: method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          company: company.value,
-          position: position.value,
-          status: status.value,
-        }),
-      });
+  handleLoginRegister();
+  handleLogin();
+  handleRegister();
 
-      const data = await response.json();
-      if (response.status === 200 || response.status === 201) {
-        message.textContent =
-          response.status === 200
-            ? "The job entry was updated."
-            : "The job entry was created.";
-
-        company.value = "";
-        position.value = "";
-        status.value = "pending";
-        showJobs();
-      } else {
-        message.textContent = data.msg;
-      }
-    } catch (err) {
-      console.log(err);
-      message.textContent = "A communication error occurred.";
-    }
-    enableInput(true);
+  if (token) {
+    showJobs();
+  } else {
+    showLoginRegister();
   }
 });
+
+const handleJobs = () => {
+  showJobs();
+};
+
+export { message, token };
