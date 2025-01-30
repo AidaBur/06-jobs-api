@@ -28,6 +28,7 @@ const createJob = async (req, res) => {
   const job = await Job.create(req.body);
   res.status(StatusCodes.CREATED).json({ job });
 };
+
 const updateJob = async (req, res) => {
   const {
     body: { company, position },
@@ -36,7 +37,7 @@ const updateJob = async (req, res) => {
   } = req;
 
   if (company === "" || position === "") {
-    throw new BadRequestError("Company or Position fields cannot be emty");
+    throw new BadRequestError("Company or Position fields cannot be empty");
   }
   const job = await Job.findByIdAndUpdate(
     { _id: jobId, createdBy: userId },
@@ -62,7 +63,7 @@ const deleteJob = async (req, res) => {
   if (!job) {
     throw new NotFoundError(`No job with id ${jobId}`);
   }
-  res.status(StatusCodes.OK).send();
+  res.status(StatusCodes.OK).json({ msg: "The entry was deleted." }); 
 };
 
 module.exports = {
