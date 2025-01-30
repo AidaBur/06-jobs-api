@@ -1,20 +1,23 @@
-import { showJobs } from "./jobs.js";
+import { showJobs, handleJobs } from "./jobs.js";
 import { showLoginRegister, handleLoginRegister } from "./loginRegister.js";
 import { handleLogin } from "./login.js";
-import { showAddEdit } from "./addEdit.js";
+import { handleAddEdit } from "./addEdit.js";
 import { handleRegister } from "./register.js";
 
-let message = null;
 let activeDiv = null;
+export let message = null;
 
 export const setDiv = (newDiv) => {
-  if (newDiv !== activeDiv) {
-    if (activeDiv) {
-      activeDiv.style.display = "none";
-    }
-    newDiv.style.display = "block";
-    activeDiv = newDiv;
+  if (newDiv === activeDiv) {
+    return;
   }
+
+  if (activeDiv) {
+    activeDiv.style.display = "none";
+  }
+
+  newDiv.style.display = "block";
+  activeDiv = newDiv;
 };
 
 export let inputEnabled = true;
@@ -22,7 +25,7 @@ export const enableInput = (state) => {
   inputEnabled = state;
 };
 
-let token = null;
+export let token = null;
 export const setToken = (value) => {
   token = value;
   if (value) {
@@ -34,22 +37,16 @@ export const setToken = (value) => {
 
 document.addEventListener("DOMContentLoaded", () => {
   token = localStorage.getItem("token");
+  console.log("Token:", token);
   message = document.getElementById("message");
   handleLoginRegister();
   handleLogin();
-  showJobs();
+  handleJobs();
   handleRegister();
-  showAddEdit();
-
+  handleAddEdit();
   if (token) {
     showJobs();
   } else {
     showLoginRegister();
   }
 });
-
-/* const handleJobs = () => {
-  showJobs();
-}; */
-
-export { message, token };

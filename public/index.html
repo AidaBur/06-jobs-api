@@ -6,16 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Jobs List</title>
   </head>
+
   <body>
     <h1>Jobs List</h1>
     <hr />
     <p id="message"></p>
     <hr />
-    <div id="logon-register" style="display: none">
+    <div id="logon-register" style="display:none;">
       <button type="button" id="logon">logon</button>
       <button type="button" id="register">register</button>
     </div>
-    <div id="logon-div" style="display: none">
+    <div id="logon-div" style="display:none;">
       <form>
         <div>
           <label for="email">email:</label>
@@ -25,11 +26,11 @@
           <label for="password">password:</label>
           <input type="password" id="password" />
         </div>
-        <button type="button" id="logon-button">logon</button>
-        <button type="button" id="logon-cancel">cancel</button>
+        <button type="submit" id="logon-button">login</button>
+        <button type="reset" id="logon-cancel">cancel</button>
       </form>
     </div>
-    <div id="register-div" style="display: none">
+    <div id="register-div" style="display:none;">
       <form>
         <div>
           <label for="name">name:</label>
@@ -47,11 +48,11 @@
           <label for="password2">verify password:</label>
           <input type="password" id="password2" />
         </div>
-        <button type="button" id="register-button">register</button>
-        <button type="button" id="register-cancel">cancel</button>
-      </form>
+        <button type="submit" id="register-button">register</button>
+        <button type="reset" id="register-cancel">cancel</button>
+      </form >
     </div>
-    <div id="jobs" style="display: none">
+    <div id="jobs" style="display:none;">
       <p id="jobs-message"></p>
       <table id="jobs-table">
         <tr id="jobs-table-header">
@@ -64,8 +65,8 @@
       <button type="button" id="add-job">add job</button>
       <button type="button" id="logoff">log off</button>
     </div>
-    <div id="edit-job" style="display: none">
-      <form>
+    <div id="edit-job" style="display:none;">
+      <form id = "addEditJobForm">
         <div>
           <label for="company">company:</label>
           <input type="text" id="company" />
@@ -82,11 +83,10 @@
             <option value="declined">declined</option>
           </select>
         </div>
-        <button type="button" id="adding-job">add</button>
-        <button type="button" id="edit-cancel">cancel</button>
+        <button type="submit" id="adding-job">Update</button>
+        <button type="button" id="edit-cancel">Cancel</button>
       </form>
     </div>
-    <div id="jobs-container"></div>
     <script src="./index.js" type="module"></script>
   </body>
 </html>
