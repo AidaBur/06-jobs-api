@@ -20,6 +20,7 @@ export const handleLogin = () => {
   const logonCancel = document.getElementById("logon-cancel");
 
   loginDiv.addEventListener("click", async (e) => {
+    e.preventDefault()
     if (inputEnabled && e.target.nodeName === "BUTTON") {
       if (e.target === logonButton) {
         enableInput(false);
@@ -36,9 +37,12 @@ export const handleLogin = () => {
             }),
           });
 
+          console.log(response);
+
           const data = await response.json();
           if (response.ok) {
             message.textContent = `Logon successful.  Welcome ${data.user.name}`;
+            console.log("Token:", data.token);
             setToken(data.token);
             email.value = "";
             password.value = "";

@@ -25,6 +25,7 @@ export const handleRegister = () => {
   const registerCancel = document.getElementById("register-cancel");
 
   registerDiv.addEventListener("click", async (e) => {
+    e.preventDefault();
     if (inputEnabled && e.target.nodeName === "BUTTON") {
       if (e.target === registerButton) {
         if (password1.value != password2.value) {
@@ -46,6 +47,7 @@ export const handleRegister = () => {
             });
 
             const data = await response.json();
+            console.log(data);
             if (response.status === 201) {
               message.textContent = `Registration successful.  Welcome ${data.user.name}`;
               setToken(data.token);
